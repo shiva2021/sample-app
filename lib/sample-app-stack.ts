@@ -1,23 +1,29 @@
 import * as cdk from "aws-cdk-lib";
 import {
-  CfnOutput,
-  aws_s3 as s3,
-  aws_dynamodb as db,
   aws_lambda as lambda,
-  aws_lambda_event_sources as eventSources,
+  Duration,
+  aws_events as events,
+  aws_events_targets as targets,
 } from "aws-cdk-lib";
 import { Construct } from "constructs";
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class SampleAppStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     // The code that defines your stack goes here
+    const lambdaFn = new lambda.Function(this, "s3-file-generator", {
+      code: lambda.Code.fromAsset("lambdaFn"),
+      handler: "index.handler",
+      runtime: lambda.Runtime.NODEJS_16_X,
+      timeout: Duration.seconds(120),
+      memorySize: 1024,
+    });
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'SampleAppQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    const eventRule = new events.Rule(this, "lambda-rule", {
+      schedule: events.Schedule.cron({ minute: "2" }),
+    });
+
+    eventRule.addTarget(new targets.LambdaFunction(lambdaFn));
   }
 }
