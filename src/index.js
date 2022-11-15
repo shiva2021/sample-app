@@ -72,7 +72,7 @@ const checkIfBucketExists = async () => {
   console.log(`Bucket ${bucketParams.Bucket} already exists... NOW DELETING in 5 secs`);
 };
 
-(async function () {
+exports.handler = async function () {
   try {
     try {
       await checkIfBucketExists();
@@ -88,4 +88,4 @@ const checkIfBucketExists = async () => {
   } catch (error) {
     console.error(error);
   }
-})();
+};

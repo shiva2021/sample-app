@@ -21,7 +21,7 @@ export class SampleAppStack extends cdk.Stack {
     });
 
     const eventRule = new events.Rule(this, "lambda-rule", {
-      schedule: events.Schedule.cron({ minute: "2" }),
+      schedule: events.Schedule.expression('cron(0/2 * ? * MON-FRI *)'),
     });
 
     eventRule.addTarget(new targets.LambdaFunction(lambdaFn));
