@@ -5,5 +5,5 @@ import { SampleAppStack } from '../lib/sample-app-stack';
 
 const app = new cdk.App();
 new SampleAppStack(app, 'SampleAppStack', {
-  env: { account: '215534998753', region: 'ap-southeast-2' },
+  env: { account: '805311137006', region: 'ap-south-1' },
 });
