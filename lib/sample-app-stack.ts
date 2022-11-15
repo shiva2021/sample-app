@@ -27,14 +27,16 @@ export class SampleAppStack extends cdk.Stack {
 
     //create policy rules for lambda function
     const s3ListBucketPolicy = new iam.PolicyStatement({
-      actions: ["s3:GetObject", "s3:PutObject", "s3:PutObjectAcl"],
-      resources: ['arn:aws:s3:::*'],
+      actions: [
+        "s3:*"
+      ],
+      resources: ["*"],
     });
     lambdaFn.role?.attachInlinePolicy(
-      new iam.Policy(this, 'createBucketPolicy', {
-        statements:[s3ListBucketPolicy]
+      new iam.Policy(this, "createBucketPolicy", {
+        statements: [s3ListBucketPolicy],
       })
-    )
+    );
 
     eventRule.addTarget(new targets.LambdaFunction(lambdaFn));
   }

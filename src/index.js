@@ -77,10 +77,8 @@ exports.handler = async function () {
     try {
       await checkIfBucketExists();
 
-      setTimeout(async () => {
-        await deleteBucketObjects();
-        await deleteBucket();
-      }, 4000);
+      await deleteBucketObjects();
+      await deleteBucket();
 
     } catch (error) {
       await createBucket();
